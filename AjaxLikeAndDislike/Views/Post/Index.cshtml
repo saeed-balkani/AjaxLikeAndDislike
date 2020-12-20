@@ -1,0 +1,57 @@
+﻿@model IEnumerable<AjaxLikeAndDislike.Models.Posts>
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" />
+
+<div class="jumbotron">
+    <div class="col-md-12" style="direction: rtl;">
+        @foreach (var item in Model)
+        { 
+       <h3>نوشته شده توسط : <b> @item.UserName <i class="fa fa-instagram" aria-hidden="true"></i></b></h3>
+        <h2>@item.PostText</h2>
+        <div class="col-md-3">
+            <h3 class="text-success">
+                <span class="count" id="like">0</span>
+                <a href="#" onclick="LikeCount(@item.PostsId)">
+                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                </a>
+            </h3>
+        </div>
+        
+        <div class="col-md-3">
+            <h3 class="text-danger">
+                <span class="count" id="dislike">0</span>
+                <a href="#" onclick="DisikeCount(@item.PostsId)">
+                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                </a>
+            </h3>
+        </div>
+        }
+
+        <br />
+    </div>
+</div>
+    <!--Start ajax-->
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    function LikeCount(id) {
+        $.ajax({
+            url: "/Post/LikeCount/" + id,
+            type: "Get"
+        }).done(function (result) {
+            $("#like").html(result);
+        });
+    }
+</script>
+<script>
+    function DisikeCount(id) {
+        $.ajax({
+            url: "/Post/DisikeCount/" + id,
+            type: "Get"
+        }).done(function (result) {
+            $("#dislike").html(result);
+        });
+    }
+</script>
+<!--End ajax-->
